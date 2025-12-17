@@ -1,11 +1,18 @@
 package com.hotelreservation.services;
 
-import com.hotelreservation.entities.*;
+import com.hotelreservation.entities.Booking;
+import com.hotelreservation.entities.Room;
+import com.hotelreservation.entities.User;
 import com.hotelreservation.enums.RoomType;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Main service handling room, user, and booking operations.
+ */
 public class Service {
+    // Package-private for test access
     ArrayList<Room> rooms;
     ArrayList<User> users;
     ArrayList<Booking> bookings;

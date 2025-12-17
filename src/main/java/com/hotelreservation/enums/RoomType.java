@@ -1,7 +1,10 @@
 package com.hotelreservation.enums;
 
+/**
+ * Room types available in the hotel system.
+ */
 public enum RoomType {
     STANDARD,
-    JUNIOR_SUITE,
-    MASTER_SUITE
+    JUNIOR,
+    SUITE
 }

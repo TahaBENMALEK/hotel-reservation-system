@@ -5,34 +5,63 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afbde428-fb5d-4dae-8225-e224151fd758" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/hotelreservation/ServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hotelreservation/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hotelreservation/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/services/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hotelreservation/entities/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/entities/Booking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hotelreservation/entities/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/entities/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hotelreservation/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/entities/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hotelreservation/enums/RoomType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/enums/RoomType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hotelreservation/exceptions/InsufficientBalanceException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/exceptions/InsufficientBalanceException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hotelreservation/exceptions/InvalidBookingException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/exceptions/InvalidBookingException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hotelreservation/exceptions/RoomNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/exceptions/RoomNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hotelreservation/exceptions/UserNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/exceptions/UserNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="36xSdRAP46uXhOM22QAFzItJrcb" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\info\Desktop\projects\hotel-reservation-system\src\main\java" />
+      <recent name="C:\Users\info\Desktop\projects\hotel-reservation-system\src\main\java\com\hotelreservation" />
+      <recent name="C:\Users\info\Desktop\projects\hotel-reservation-system\src\main\java\com\hotelreservation\exceptions" />
+      <recent name="C:\Users\info\Desktop\projects\hotel-reservation-system\src\main\java\com\hotelreservation\enums" />
+      <recent name="C:\Users\info\Desktop\projects\hotel-reservation-system\src\main\java\com\hotelreservation\entities" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

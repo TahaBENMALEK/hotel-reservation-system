@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afbde428-fb5d-4dae-8225-e224151fd758" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hotelreservation/entities/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/entities/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hotelreservation/entities/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/entities/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hotelreservation/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hotelreservation/enums/RoomType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/enums/RoomType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hotelreservation/services/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hotelreservation/services/Service.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/hotelreservation/ServiceTest.java" beforeDir="false" />
-    </list>
+    <list default="true" id="afbde428-fb5d-4dae-8225-e224151fd758" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

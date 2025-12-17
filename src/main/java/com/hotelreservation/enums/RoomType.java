@@ -1,5 +1,7 @@
 package com.hotelreservation.enums;
 
-public class RoomType {
-    
+public enum RoomType {
+    STANDARD,
+    JUNIOR_SUITE,
+    MASTER_SUITE
 }

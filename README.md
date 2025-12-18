@@ -6,9 +6,9 @@ A robust Java-based hotel booking system that manages rooms, users, and reservat
 
 ## 📋 Features
 
-- **entities.hotelreservation.Room Management**: Create and update rooms with different types (Standard, Junior Suite, Master Suite)
-- **entities.hotelreservation.User Management**: Manage users with balance tracking
-- **Smart entities.hotelreservation.Booking System**: 
+- **Room Management**: Create and update rooms with different types (Standard, Junior Suite, Master Suite)
+- **User Management**: Manage users with balance tracking
+- **Smart Booking System**: 
   - Book rooms for specific date ranges with automatic validation
   - Real-time balance verification
   - Date overlap detection to prevent double bookings
@@ -26,7 +26,7 @@ A robust Java-based hotel booking system that manages rooms, users, and reservat
 | **Testing Framework** | JUnit 5 |
 | **Date/Time API** | Java Time API (LocalDate, ChronoUnit) |
 | **Data Structures** | ArrayList (in-memory storage) |
-| **Design Pattern** | hotelreservation.Service Layer Pattern |
+| **Design Pattern** | Service Layer Pattern |
 
 ---
 
@@ -48,7 +48,7 @@ cd hotel-reservation-system-java
 mvn clean install
 
 # 3. Run the application
-mvn exec:java -Dexec.mainClass="com.hotelreservation.hotelreservation.Main"
+mvn exec:java -Dexec.mainClass="com.hotelreservation.Main"
 
 # 4. Run unit tests
 mvn test
@@ -66,11 +66,11 @@ Creating users...
 
 --- Testing Bookings ---
 
-entities.hotelreservation.User 1 booking entities.hotelreservation.Room 2 (7 nights)...
-✓ entities.hotelreservation.Booking successful
+User 1 booking Room 2 (7 nights)...
+✓ Booking successful
 
-entities.hotelreservation.User 1 booking entities.hotelreservation.Room 2 (invalid dates)...
-✗ entities.hotelreservation.Booking failed: Check-out date must be after check-in date
+User 1 booking Room 2 (invalid dates)...
+✗ Booking failed: Check-out date must be after check-in date
 
 [... more test results ...]
 
@@ -78,7 +78,7 @@ entities.hotelreservation.User 1 booking entities.hotelreservation.Room 2 (inval
 [Bookings and rooms data displayed here]
 
 === PRINT ALL USERS ===
-[entities.hotelreservation.User data displayed here]
+[User data displayed here]
 ```
 
 ---
@@ -91,18 +91,18 @@ hotel-reservation-system-java/
 │   ├── main/
 │   │   └── java/com/hotelreservation/
 │   │       ├── entities/              # Domain models
-│   │       │   ├── entities.hotelreservation.Room.java          # entities.hotelreservation.Room entity with type & pricing
-│   │       │   ├── entities.hotelreservation.User.java          # entities.hotelreservation.User entity with balance
-│   │       │   └── entities.hotelreservation.Booking.java       # entities.hotelreservation.Booking with data snapshots
+│   │       │   ├── Room.java          # Room entity with type & pricing
+│   │       │   ├── User.java          # User entity with balance
+│   │       │   └── Booking.java       # Booking with data snapshots
 │   │       ├── enums/
-│   │       │   └── enums.hotelreservation.RoomType.java      # STANDARD, JUNIOR_SUITE, MASTER_SUITE
+│   │       │   └── RoomType.java      # STANDARD, JUNIOR_SUITE, MASTER_SUITE
 │   │       ├── exceptions/            # Custom exception hierarchy
-│   │       │   ├── exceptions.hotelreservation.InsufficientBalanceException.java
-│   │       │   ├── exceptions.hotelreservation.InvalidBookingException.java
-│   │       │   ├── exceptions.hotelreservation.RoomNotFoundException.java
-│   │       │   └── exceptions.hotelreservation.UserNotFoundException.java
-│   │       ├── hotelreservation.Service.java           # Business logic layer
-│   │       └── hotelreservation.Main.java              # Application entry point & demo
+│   │       │   ├── InsufficientBalanceException.java
+│   │       │   ├── InvalidBookingException.java
+│   │       │   ├── RoomNotFoundException.java
+│   │       │   └── UserNotFoundException.java
+│   │       ├── Service.java           # Business logic layer
+│   │       └── Main.java              # Application entry point & demo
 │   └── test/
 │       └── java/com/hotelreservation/
 │           └── ServiceTest.java       # Unit tests with JUnit 5
@@ -115,16 +115,13 @@ hotel-reservation-system-java/
 
 ## 🎯 Key Design Decisions
 
-### 1. **entities.hotelreservation.Booking Entity Architecture**
+### 1. **Booking Entity Architecture**
 Store snapshots of room and user data at booking time to ensure historical accuracy:
-
 ```java
-import com.hotelreservation.entities.Booking;
-
 Booking booking = new Booking(userId, roomNumber, checkIn, checkOut,
-        room.getRoomType(),      // Snapshot of room type
-        room.getPricePerNight(), // Snapshot of price
-        user.getBalance()        // Snapshot of balance
+    room.getRoomType(),      // Snapshot of room type
+    room.getPricePerNight(), // Snapshot of price
+    user.getBalance()        // Snapshot of balance
 );
 ```
 
@@ -144,11 +141,11 @@ Custom exceptions for specific scenarios with descriptive messages for easier de
 
 | Scenario | Expected Result |
 |----------|----------------|
-| entities.hotelreservation.User books room with sufficient balance | ✅ Success, balance deducted |
-| entities.hotelreservation.User books with invalid date range | ❌ exceptions.hotelreservation.InvalidBookingException |
-| entities.hotelreservation.User books without enough balance | ❌ exceptions.hotelreservation.InsufficientBalanceException |
-| entities.hotelreservation.User books already occupied room | ❌ exceptions.hotelreservation.InvalidBookingException |
-| entities.hotelreservation.Room price updated after booking | ✅ Old bookings unaffected |
+| User books room with sufficient balance | ✅ Success, balance deducted |
+| User books with invalid date range | ❌ InvalidBookingException |
+| User books without enough balance | ❌ InsufficientBalanceException |
+| User books already occupied room | ❌ InvalidBookingException |
+| Room price updated after booking | ✅ Old bookings unaffected |
 
 ---
 
@@ -160,7 +157,7 @@ mvn test
 ```
 
 ### Manual Testing
-Run `hotelreservation.Main.java` to see the full booking workflow with console output.
+Run `Main.java` to see the full booking workflow with console output.
 
 ---
 
@@ -174,11 +171,11 @@ Creating users...
 
 --- Testing Bookings ---
 
-entities.hotelreservation.User 1 booking entities.hotelreservation.Room 2 (7 nights)...
-✓ entities.hotelreservation.Booking successful
+User 1 booking Room 2 (7 nights)...
+✓ Booking successful
 
-entities.hotelreservation.User 1 booking entities.hotelreservation.Room 2 (invalid dates)...
-✗ entities.hotelreservation.Booking failed: Check-out date must be after check-in date
+User 1 booking Room 2 (invalid dates)...
+✗ Booking failed: Check-out date must be after check-in date
 ```
 
 ---

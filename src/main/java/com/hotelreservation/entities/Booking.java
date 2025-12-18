@@ -4,19 +4,16 @@ import com.hotelreservation.enums.RoomType;
 import java.time.LocalDate;
 
 /**
- * Represents a booking with snapshots of room/user data at booking time.
+ * Immutable booking with historical snapshots.
  */
 public class Booking {
-    // Public fields for cross-package test access
-    public int userId;
-    public int roomNumber;
-    public LocalDate checkIn;
-    public LocalDate checkOut;
-
-    // Snapshots to preserve historical data
-    public RoomType roomTypeAtBooking;
-    public int pricePerNightAtBooking;
-    public int userBalanceAtBooking;
+    private final int userId;
+    private final int roomNumber;
+    private final LocalDate checkIn;
+    private final LocalDate checkOut;
+    private final RoomType roomTypeAtBooking;
+    private final int pricePerNightAtBooking;
+    private final int userBalanceAtBooking;
 
     public Booking(int userId, int roomNumber, LocalDate checkIn, LocalDate checkOut,
                    RoomType roomTypeAtBooking, int pricePerNightAtBooking, int userBalanceAtBooking) {
@@ -27,5 +24,34 @@ public class Booking {
         this.roomTypeAtBooking = roomTypeAtBooking;
         this.pricePerNightAtBooking = pricePerNightAtBooking;
         this.userBalanceAtBooking = userBalanceAtBooking;
+    }
+
+    // Getters only (immutable)
+    public int getUserId() {
+        return userId;
+    }
+
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public LocalDate getCheckIn() {
+        return checkIn;
+    }
+
+    public LocalDate getCheckOut() {
+        return checkOut;
+    }
+
+    public RoomType getRoomTypeAtBooking() {
+        return roomTypeAtBooking;
+    }
+
+    public int getPricePerNightAtBooking() {
+        return pricePerNightAtBooking;
+    }
+
+    public int getUserBalanceAtBooking() {
+        return userBalanceAtBooking;
     }
 }

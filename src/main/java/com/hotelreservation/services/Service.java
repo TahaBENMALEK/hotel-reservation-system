@@ -4,168 +4,112 @@ import com.hotelreservation.entities.Booking;
 import com.hotelreservation.entities.Room;
 import com.hotelreservation.entities.User;
 import com.hotelreservation.enums.RoomType;
-import com.hotelreservation.exceptions.InsufficientBalanceException;
+import com.hotelreservation.repositories.RoomRepository;
+import com.hotelreservation.repositories.UserRepository;
+import com.hotelreservation.repositories.BookingRepository;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * Main service handling room, user, and booking operations.
- * Phase 1: Simple implementation to pass tests.
+ * Service layer with proper separation of concerns.
+ * Phase 3: REFACTOR - OOP principles applied.
  */
 public class Service {
-    // Package-private for test access
-    ArrayList<Room> rooms;
-    ArrayList<User> users;
-    ArrayList<Booking> bookings;
+    private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
+    private final BookingRepository bookingRepository;
 
     public Service() {
-        this.rooms = new ArrayList<>();
-        this.users = new ArrayList<>();
-        this.bookings = new ArrayList<>();
+        this.roomRepository = new RoomRepository();
+        this.userRepository = new UserRepository();
+        this.bookingRepository = new BookingRepository();
     }
 
     /**
-     * Creates or updates a room. Does not affect existing bookings.
+     * Creates or updates a room without affecting bookings.
      */
     public void setRoom(int roomNumber, RoomType roomType, int roomPricePerNight) {
-        // Find existing room
-        Room existingRoom = null;
-        for (Room r : rooms) {
-            if (r.roomNumber == roomNumber) {
-                existingRoom = r;
-                break;
-            }
-        }
+        Optional<Room> existingRoom = roomRepository.findByRoomNumber(roomNumber);
 
-        if (existingRoom != null) {
-            // Update existing room
-            existingRoom.roomType = roomType;
-            existingRoom.pricePerNight = roomPricePerNight;
+        if (existingRoom.isPresent()) {
+            Room room = existingRoom.get();
+            room.setRoomType(roomType);
+            room.setPricePerNight(roomPricePerNight);
         } else {
-            // Create new room
-            rooms.add(new Room(roomNumber, roomType, roomPricePerNight));
+            roomRepository.save(new Room(roomNumber, roomType, roomPricePerNight));
         }
     }
 
     /**
-     * Creates or updates a user with balance.
+     * Creates or updates a user.
      */
     public void setUser(int userId, int balance) {
-        // Find existing user
-        User existingUser = null;
-        for (User u : users) {
-            if (u.userId == userId) {
-                existingUser = u;
-                break;
-            }
-        }
+        Optional<User> existingUser = userRepository.findByUserId(userId);
 
-        if (existingUser != null) {
-            // Update existing user
-            existingUser.balance = balance;
+        if (existingUser.isPresent()) {
+            existingUser.get().setBalance(balance);
         } else {
-            // Create new user
-            users.add(new User(userId, balance));
+            userRepository.save(new User(userId, balance));
         }
     }
 
     /**
-     * Books a room for a user with comprehensive validation.
-     * Throws RuntimeException for validation failures.
+     * Books a room with comprehensive validation.
      */
     public void bookRoom(int userId, int roomNumber, LocalDate checkIn, LocalDate checkOut) {
-        // Validation 1: Check dates
-        if (checkOut.isBefore(checkIn) || checkOut.isEqual(checkIn)) {
-            throw new RuntimeException("Check-out date must be after check-in date");
-        }
+        validateDates(checkIn, checkOut);
 
-        // Find room
-        Room room = null;
-        for (Room r : rooms) {
-            if (r.roomNumber == roomNumber) {
-                room = r;
-                break;
-            }
-        }
-        if (room == null) {
-            throw new RuntimeException("Room not found: " + roomNumber);
-        }
+        Room room = roomRepository.findByRoomNumber(roomNumber)
+                .orElseThrow(() -> new RuntimeException("Room not found: " + roomNumber));
 
-        // Find user
-        User user = null;
-        for (User u : users) {
-            if (u.userId == userId) {
-                user = u;
-                break;
-            }
-        }
-        if (user == null) {
-            throw new RuntimeException("User not found: " + userId);
-        }
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("User not found: " + userId));
 
-        // Validation 2: Check for overlapping bookings
-        for (Booking b : bookings) {
-            if (b.roomNumber == roomNumber) {
-                // Check if dates overlap
-                boolean overlaps = !(checkOut.isBefore(b.checkIn) ||
-                        checkOut.isEqual(b.checkIn) ||
-                        checkIn.isAfter(b.checkOut) ||
-                        checkIn.isEqual(b.checkOut));
-                if (overlaps) {
-                    throw new RuntimeException("Room is already booked for these dates");
-                }
-            }
-        }
+        validateNoOverlap(roomNumber, checkIn, checkOut);
 
-        // Validation 3: Check balance
-        long nights = ChronoUnit.DAYS.between(checkIn, checkOut);
-        int totalCost = (int) nights * room.pricePerNight;
+        int totalCost = calculateCost(room, checkIn, checkOut);
+        validateBalance(user, totalCost);
 
-        if (user.balance < totalCost) {
-            throw new RuntimeException("Insufficient balance. Required: " + totalCost +
-                    ", Available: " + user.balance);
-        }
+        // Deduct balance and save booking
+        user.deductBalance(totalCost);
 
-        // All validations passed - create booking
-        user.balance -= totalCost;
-
-        // Store snapshot of data at booking time
         Booking booking = new Booking(
-                userId,
-                roomNumber,
-                checkIn,
-                checkOut,
-                room.roomType,           // Snapshot
-                room.pricePerNight,      // Snapshot
-                user.balance + totalCost // Original balance before deduction
+                userId, roomNumber, checkIn, checkOut,
+                room.getRoomType(),
+                room.getPricePerNight(),
+                user.getBalance() + totalCost  // Original balance
         );
 
-        bookings.add(booking);
+        bookingRepository.save(booking);
     }
 
     /**
      * Prints all rooms and bookings (latest first).
      */
     public void printAll() {
+        List<Room> rooms = roomRepository.findAll();
+        List<Booking> bookings = bookingRepository.findAll();
+
         System.out.println("\n=== ALL ROOMS (Latest First) ===");
         for (int i = rooms.size() - 1; i >= 0; i--) {
             Room r = rooms.get(i);
             System.out.printf("Room %d | Type: %s | Price: %d/night%n",
-                    r.roomNumber, r.roomType, r.pricePerNight);
+                    r.getRoomNumber(), r.getRoomType(), r.getPricePerNight());
         }
 
         System.out.println("\n=== ALL BOOKINGS (Latest First) ===");
         for (int i = bookings.size() - 1; i >= 0; i--) {
             Booking b = bookings.get(i);
-            long nights = ChronoUnit.DAYS.between(b.checkIn, b.checkOut);
-            int cost = (int) nights * b.pricePerNightAtBooking;
+            long nights = ChronoUnit.DAYS.between(b.getCheckIn(), b.getCheckOut());
+            int cost = (int) nights * b.getPricePerNightAtBooking();
 
             System.out.printf("Booking | User: %d | Room: %d | %s to %s (%d nights)%n",
-                    b.userId, b.roomNumber, b.checkIn, b.checkOut, nights);
+                    b.getUserId(), b.getRoomNumber(), b.getCheckIn(), b.getCheckOut(), nights);
             System.out.printf("  → Booked as: %s @ %d/night | Total: %d | User balance was: %d%n",
-                    b.roomTypeAtBooking, b.pricePerNightAtBooking, cost, b.userBalanceAtBooking);
+                    b.getRoomTypeAtBooking(), b.getPricePerNightAtBooking(), cost, b.getUserBalanceAtBooking());
         }
     }
 
@@ -173,10 +117,58 @@ public class Service {
      * Prints all users (latest first).
      */
     public void printAllUsers() {
+        List<User> users = userRepository.findAll();
+
         System.out.println("\n=== ALL USERS (Latest First) ===");
         for (int i = users.size() - 1; i >= 0; i--) {
             User u = users.get(i);
-            System.out.printf("User %d | Balance: %d%n", u.userId, u.balance);
+            System.out.printf("User %d | Balance: %d%n", u.getUserId(), u.getBalance());
         }
+    }
+
+    // ===== Private Validation Methods =====
+
+    private void validateDates(LocalDate checkIn, LocalDate checkOut) {
+        if (checkOut.isBefore(checkIn) || checkOut.isEqual(checkIn)) {
+            throw new RuntimeException("Check-out date must be after check-in date");
+        }
+    }
+
+    private void validateNoOverlap(int roomNumber, LocalDate checkIn, LocalDate checkOut) {
+        List<Booking> existingBookings = bookingRepository.findByRoomNumber(roomNumber);
+
+        for (Booking b : existingBookings) {
+            boolean overlaps = !(checkOut.isBefore(b.getCheckIn()) ||
+                    checkOut.isEqual(b.getCheckIn()) ||
+                    checkIn.isAfter(b.getCheckOut()) ||
+                    checkIn.isEqual(b.getCheckOut()));
+            if (overlaps) {
+                throw new RuntimeException("Room is already booked for these dates");
+            }
+        }
+    }
+
+    private int calculateCost(Room room, LocalDate checkIn, LocalDate checkOut) {
+        long nights = ChronoUnit.DAYS.between(checkIn, checkOut);
+        return (int) nights * room.getPricePerNight();
+    }
+
+    private void validateBalance(User user, int totalCost) {
+        if (user.getBalance() < totalCost) {
+            throw new RuntimeException("Insufficient balance. Required: " + totalCost +
+                    ", Available: " + user.getBalance());
+        }
+    }
+    // For testing purposes - expose repository data
+    public List<Room> getRooms() {
+        return roomRepository.findAll();
+    }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    public List<Booking> getBookings() {
+        return bookingRepository.findAll();
     }
 }

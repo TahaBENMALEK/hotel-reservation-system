@@ -1,13 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.hotelreservation.services.BookingServiceTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.164 s <<< FAILURE! - in com.hotelreservation.services.BookingServiceTest
-com.hotelreservation.services.BookingServiceTest.shouldBookRoomWhenBalanceIsEnough  Time elapsed: 0.076 s  <<< ERROR!
-java.lang.RuntimeException: Insufficient balance. Required: 14000, Available: 5000
-	at com.hotelreservation.services.Service.validateBalance(Service.java:159)
-	at com.hotelreservation.services.Service.bookRoom(Service.java:74)
-	at com.hotelreservation.services.BookingServiceTest.shouldBookRoomWhenBalanceIsEnough(BookingServiceTest.java:26)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.157 s - in com.hotelreservation.services.BookingServiceTest

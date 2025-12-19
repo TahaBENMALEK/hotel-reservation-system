@@ -1,23 +1,23 @@
-# Hotel Reservation System 🏨
+# Hotel Reservation System
 
-A robust Java-based hotel booking system that manages rooms, users, and reservations with comprehensive validation and error handling.
+A robust Java-based hotel booking system managing rooms, users, and reservations with comprehensive validation and Test-Driven Development methodology.
 
 ---
 
-## 📋 Features
+## Features
 
-- **entities.hotelreservation.Room Management**: Create and update rooms with different types (Standard, Junior Suite, Master Suite)
-- **entities.hotelreservation.User Management**: Manage users with balance tracking
-- **Smart entities.hotelreservation.Booking System**: 
-  - Book rooms for specific date ranges with automatic validation
-  - Real-time balance verification
-  - Date overlap detection to prevent double bookings
-  - Historical data snapshots at booking time
+- **Room Management**: Create and update rooms with different types (Standard, Junior, Suite)
+- **User Management**: Manage users with balance tracking
+- **Smart Booking System**:
+    - Book rooms for specific date ranges with automatic validation
+    - Real-time balance verification
+    - Date overlap detection to prevent double bookings
+    - Historical data snapshots at booking time
 - **Robust Exception Handling**: Invalid dates, insufficient balance, room conflicts
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Component | Technology |
 |-----------|------------|
@@ -25,235 +25,262 @@ A robust Java-based hotel booking system that manages rooms, users, and reservat
 | **Build Tool** | Maven 3.x |
 | **Testing Framework** | JUnit 5 |
 | **Date/Time API** | Java Time API (LocalDate, ChronoUnit) |
-| **Data Structures** | ArrayList (in-memory storage) |
-| **Design Pattern** | hotelreservation.Service Layer Pattern |
+| **Architecture** | Repository Pattern + SOLID Principles |
+| **Methodology** | Test-Driven Development (TDD) |
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- ☕ Java 17 or higher ([Download here](https://www.oracle.com/java/technologies/downloads/))
-- 📦 Maven 3.6+ ([Installation guide](https://maven.apache.org/install.html))
-- 💻 IDE (IntelliJ IDEA recommended) or any text editor
+
+- Java 17 or higher ([Download here](https://www.oracle.com/java/technologies/downloads/))
+- Maven 3.6+ ([Installation guide](https://maven.apache.org/install.html))
+- Git for version control
 
 ### Installation & Setup
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/hotel-reservation-system-java.git
-cd hotel-reservation-system-java
+git clone https://github.com/TahaBENMALEK/hotel-reservation-system.git
+cd hotel-reservation-system
 
 # 2. Build the project
 mvn clean install
 
-# 3. Run the application
-mvn exec:java -Dexec.mainClass="com.hotelreservation.hotelreservation.Main"
+# 3. Run all tests
+mvn clean test
 
-# 4. Run unit tests
-mvn test
-
-# 5. Generate test coverage report (optional)
-mvn clean test jacoco:report
+# 4. Compile and run the application
+mvn clean compile
+java -cp target/classes com.hotelreservation.Main
 ```
 
 ### Expected Output
+
 ```
-=== Hotel Reservation System ===
+✗ User 1 booking Room 2 failed: Insufficient balance. Required: 14000, Available: 5000
+✗ User 1 booking Room 2 failed: Check-out date must be after check-in date
+✓ User 1 booked Room 1
+✗ User 2 booking Room 1 failed: Room is already booked for these dates
+✓ User 2 booked Room 3
 
-Creating rooms...
-Creating users...
+=== ALL ROOMS (Latest First) ===
+Room 3 | Type: SUITE | Price: 3000/night
+Room 2 | Type: JUNIOR | Price: 2000/night
+Room 1 | Type: SUITE | Price: 10000/night
 
---- Testing Bookings ---
+=== ALL BOOKINGS (Latest First) ===
+Booking | User: 2 | Room: 3 | 2026-07-07 to 2026-07-08 (1 nights)
+  → Booked as: SUITE @ 3000/night | Total: 3000 | User balance was: 10000
+Booking | User: 1 | Room: 1 | 2026-07-07 to 2026-07-08 (1 nights)
+  → Booked as: STANDARD @ 1000/night | Total: 1000 | User balance was: 5000
 
-entities.hotelreservation.User 1 booking entities.hotelreservation.Room 2 (7 nights)...
-✓ entities.hotelreservation.Booking successful
-
-entities.hotelreservation.User 1 booking entities.hotelreservation.Room 2 (invalid dates)...
-✗ entities.hotelreservation.Booking failed: Check-out date must be after check-in date
-
-[... more test results ...]
-
-=== PRINT ALL ===
-[Bookings and rooms data displayed here]
-
-=== PRINT ALL USERS ===
-[entities.hotelreservation.User data displayed here]
+=== ALL USERS (Latest First) ===
+User 2 | Balance: 7000
+User 1 | Balance: 4000
 ```
 
 ---
 
-## 📂 Project Architecture
+## Project Architecture
 
 ```
-hotel-reservation-system-java/
+hotel-reservation-system/
 ├── src/
-│   ├── main/
-│   │   └── java/com/hotelreservation/
-│   │       ├── entities/              # Domain models
-│   │       │   ├── entities.hotelreservation.Room.java          # entities.hotelreservation.Room entity with type & pricing
-│   │       │   ├── entities.hotelreservation.User.java          # entities.hotelreservation.User entity with balance
-│   │       │   └── entities.hotelreservation.Booking.java       # entities.hotelreservation.Booking with data snapshots
-│   │       ├── enums/
-│   │       │   └── enums.hotelreservation.RoomType.java      # STANDARD, JUNIOR_SUITE, MASTER_SUITE
-│   │       ├── exceptions/            # Custom exception hierarchy
-│   │       │   ├── exceptions.hotelreservation.InsufficientBalanceException.java
-│   │       │   ├── exceptions.hotelreservation.InvalidBookingException.java
-│   │       │   ├── exceptions.hotelreservation.RoomNotFoundException.java
-│   │       │   └── exceptions.hotelreservation.UserNotFoundException.java
-│   │       ├── hotelreservation.Service.java           # Business logic layer
-│   │       └── hotelreservation.Main.java              # Application entry point & demo
-│   └── test/
-│       └── java/com/hotelreservation/
-│           └── ServiceTest.java       # Unit tests with JUnit 5
+│   ├── main/java/com/hotelreservation/
+│   │   ├── entities/              # Domain models with encapsulation
+│   │   │   ├── Room.java          # Room entity with type & pricing
+│   │   │   ├── User.java          # User entity with balance
+│   │   │   └── Booking.java       # Booking with historical snapshots
+│   │   ├── enums/
+│   │   │   └── RoomType.java      # STANDARD, JUNIOR, SUITE
+│   │   ├── exceptions/            # Custom exception hierarchy
+│   │   │   ├── InsufficientBalanceException.java
+│   │   │   ├── InvalidBookingException.java
+│   │   │   ├── RoomNotFoundException.java
+│   │   │   └── UserNotFoundException.java
+│   │   ├── repositories/          # Data access layer
+│   │   │   ├── RoomRepository.java
+│   │   │   ├── UserRepository.java
+│   │   │   └── BookingRepository.java
+│   │   ├── services/
+│   │   │   └── Service.java       # Business logic layer
+│   │   └── Main.java              # Application entry point
+│   └── test/java/com/hotelreservation/services/
+│       ├── RoomServiceTest.java       # Room management tests
+│       ├── UserServiceTest.java       # User management tests
+│       ├── BookingServiceTest.java    # Booking validation tests
+│       └── IntegrationTest.java       # Full system test
 ├── pom.xml                            # Maven configuration
 ├── .gitignore                         # Git exclusions
-└── README.md                          # This file
+└── README.md                          # Project documentation
 ```
 
 ---
 
-## 🎯 Key Design Decisions
+## Key Design Decisions
 
-### 1. **entities.hotelreservation.Booking Entity Architecture**
+### 1. Snapshot Pattern for Historical Data
+
 Store snapshots of room and user data at booking time to ensure historical accuracy:
 
 ```java
-import com.hotelreservation.entities.Booking;
-
-Booking booking = new Booking(userId, roomNumber, checkIn, checkOut,
-        room.getRoomType(),      // Snapshot of room type
-        room.getPricePerNight(), // Snapshot of price
-        user.getBalance()        // Snapshot of balance
-);
+public class Booking {
+    private final RoomType roomTypeAtBooking;     // Snapshot
+    private final int pricePerNightAtBooking;     // Snapshot
+    private final int userBalanceAtBooking;       // Snapshot
+}
 ```
 
-### 2. **Date Overlap Detection**
+**Why?** Ensures booking history remains accurate even when room prices or types are updated.
+
+### 2. Repository Pattern
+
+Separation of concerns with three layers:
+- **Service Layer**: Business logic and validation
+- **Repository Layer**: Data access and storage
+- **Entity Layer**: Domain models
+
+**Benefits:** Testable, maintainable, follows SOLID principles.
+
+### 3. Date Overlap Detection Algorithm
+
 ```java
-// Two bookings overlap if they DON'T satisfy either condition:
-boolean noOverlap = newCheckOut.isBefore(existingCheckIn) ||
-                    newCheckIn.isAfter(existingCheckOut);
+boolean overlaps = !(checkOut.isBefore(existingCheckIn) ||
+                     checkOut.isEqual(existingCheckIn) ||
+                     checkIn.isAfter(existingCheckOut) ||
+                     checkIn.isEqual(existingCheckOut));
 ```
 
-### 3. **Exception Handling**
-Custom exceptions for specific scenarios with descriptive messages for easier debugging.
+Prevents double bookings by detecting date range overlaps.
 
 ---
 
-## 📊 Test Scenarios
+## Test Coverage
+
+| Test Suite | Tests | Status |
+|-----------|-------|--------|
+| RoomServiceTest | 4 | ✅ Passing |
+| UserServiceTest | 3 | ✅ Passing |
+| BookingServiceTest | 5 | ✅ Passing |
+| IntegrationTest | 1 | ✅ Passing |
+| **Total** | **13** | **✅ 100%** |
+
+### Running Tests
+
+```bash
+# Run all tests
+mvn test
+
+# Run specific test class
+mvn test -Dtest=BookingServiceTest
+
+# Run with coverage report
+mvn clean test jacoco:report
+```
+
+---
+
+## Test Scenarios
 
 | Scenario | Expected Result |
 |----------|----------------|
-| entities.hotelreservation.User books room with sufficient balance | ✅ Success, balance deducted |
-| entities.hotelreservation.User books with invalid date range | ❌ exceptions.hotelreservation.InvalidBookingException |
-| entities.hotelreservation.User books without enough balance | ❌ exceptions.hotelreservation.InsufficientBalanceException |
-| entities.hotelreservation.User books already occupied room | ❌ exceptions.hotelreservation.InvalidBookingException |
-| entities.hotelreservation.Room price updated after booking | ✅ Old bookings unaffected |
+| User books room with sufficient balance | ✅ Success, balance deducted |
+| User books with invalid date range | ❌ RuntimeException thrown |
+| User books without enough balance | ❌ RuntimeException thrown |
+| User books already occupied room | ❌ RuntimeException thrown |
+| Room price updated after booking | ✅ Old bookings preserve original price |
 
 ---
 
-## 🧪 Testing
+## Development Methodology
 
-### Run Unit Tests
-```bash
-mvn test
-```
+This project follows **Test-Driven Development (TDD)**:
 
-### Manual Testing
-Run `hotelreservation.Main.java` to see the full booking workflow with console output.
+1. **RED Phase**: Write failing tests first
+2. **GREEN Phase**: Implement minimal code to pass tests
+3. **REFACTOR Phase**: Improve design while keeping tests green
 
----
-
-## 📸 Sample Output
-
-```
-=== Hotel Reservation System ===
-
-Creating rooms...
-Creating users...
-
---- Testing Bookings ---
-
-entities.hotelreservation.User 1 booking entities.hotelreservation.Room 2 (7 nights)...
-✓ entities.hotelreservation.Booking successful
-
-entities.hotelreservation.User 1 booking entities.hotelreservation.Room 2 (invalid dates)...
-✗ entities.hotelreservation.Booking failed: Check-out date must be after check-in date
-```
+See Git history for complete TDD cycle documentation with separate branches for each phase.
 
 ---
 
-## 🔄 Future Enhancements
-
-- [ ] REST API with Spring Boot
-- [ ] Persistent storage with JPA
-- [ ] React-based frontend
-- [ ] Payment integration
-- [ ] Email notifications
-
----
-
-## 📚 Additional Commands
-
-### Running Specific Tests
-```bash
-mvn test -Dtest=ServiceTest
-```
-
-### Generating JavaDoc
-```bash
-mvn javadoc:javadoc
-```
+## Additional Commands
 
 ### Build Without Tests
 ```bash
 mvn clean install -DskipTests
 ```
 
+### Generate JavaDoc
+```bash
+mvn javadoc:javadoc
+```
+
+### Package as JAR
+```bash
+mvn clean package
+```
+
 ---
 
-## 🤝 Contributing
+## Design Patterns Used
 
-Feedback and suggestions are welcome!
+- **Repository Pattern**: Data access abstraction
+- **Snapshot Pattern**: Historical data preservation
+- **Factory Pattern**: Entity creation
+- **Immutable Objects**: Thread-safe Booking entities
+
+---
+
+## SOLID Principles Applied
+
+- **Single Responsibility**: Each class has one clear purpose
+- **Open/Closed**: Extensible without modification
+- **Liskov Substitution**: Proper inheritance hierarchy
+- **Interface Segregation**: Minimal, focused interfaces
+- **Dependency Inversion**: Depend on abstractions, not concretions
+
+---
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
 ---
 
-## 👤 Author & Contact
+## Author
 
 **Taha BENMALEK**  
-Full Stack Java Developer | React Enthusiast
+Full Stack Java Developer
 
-📧 **Email**: [benmalektaha.inpt@gmail.com](mailto:benmalektaha.inpt@gmail.com)  
-📱 **Phone**: +212 618 987 792  
-💼 **LinkedIn**: [linkedin.com/in/taha-benmalek](https://linkedin.com/in/taha-benmalek-/)  
-🐙 **GitHub**: [@TahaBENMALEK](https://github.com/TahaBENMALEK)
-
----
-
-## 📄 License
-
-© 2024 Taha BENMALEK. All rights reserved.
-MIT license, you can use this project to learn and educate!
+- 📧 Email: benmalektaha.inpt@gmail.com
+- 📱 Phone: +212 618 987 792
+- 💼 LinkedIn: [linkedin.com/in/taha-benmalek-](https://linkedin.com/in/taha-benmalek-/)
+- 🐙 GitHub: [@TahaBENMALEK](https://github.com/TahaBENMALEK)
 
 ---
 
-## 🙏 Acknowledgments
+## License
 
-- Java & Oracle Documentation for comprehensive references
+© 2024 Taha BENMALEK. All rights reserved.  
+This project is licensed under the MIT License - feel free to use for learning and educational purposes.
+
+---
+
+## Acknowledgments
+
+- Java & Oracle Documentation for comprehensive API references
 - Maven Community for excellent build tooling
+- JUnit team for the testing framework
 
 ---
 
-<div align="center">
-
-**⭐ If you found this project interesting, please consider giving it a star! ⭐**
-
-Made with ☕ and 💻 by Taha BENMALEK
-
-</div>
+**Made with ☕ and dedication by Taha BENMALEK**

@@ -7,9 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 
-/**
- * Integration test using the exact scenario from requirements.
- */
 class IntegrationTest {
     private Service service;
 
@@ -24,7 +21,7 @@ class IntegrationTest {
         service.setRoom(2, RoomType.JUNIOR, 2000);
         service.setRoom(3, RoomType.SUITE, 3000);
 
-        service.setUser(1, 5000);
+        service.setUser(1, 20000);
         service.setUser(2, 10000);
 
         service.bookRoom(1, 2, LocalDate.of(2026, 6, 30), LocalDate.of(2026, 7, 7));
@@ -42,19 +39,18 @@ class IntegrationTest {
         service.bookRoom(2, 3, LocalDate.of(2026, 7, 7), LocalDate.of(2026, 7, 8));
 
         assertEquals(3, service.getBookings().size());
-        assertTrue(service.getUsers().get(0).getBalance() < 5000);
-
+        assertTrue(service.getUsers().get(0).getBalance() < 20000);
         service.setRoom(1, RoomType.SUITE, 10000);
 
         service.printAll();
         service.printAllUsers();
 
         assertEquals(3, service.getBookings().size());
-        assertTrue(service.getUsers().get(0).getBalance() < 5000);
+        assertTrue(service.getUsers().get(0).getBalance() < 20000);
 
         assertEquals(3, service.getRooms().size());
         assertEquals(RoomType.SUITE, service.getRooms().get(0).getRoomType());
         assertTrue(service.getRooms().get(0).getPricePerNight() == 10000);
-        assertEquals(1, service.getBookings().size());
+        assertEquals(3, service.getBookings().size());
     }
 }

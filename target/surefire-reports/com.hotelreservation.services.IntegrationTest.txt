@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: com.hotelreservation.services.IntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.015 s <<< FAILURE! - in com.hotelreservation.services.IntegrationTest
+com.hotelreservation.services.IntegrationTest.fullSystemScenarioTest  Time elapsed: 0.009 s  <<< ERROR!
+java.lang.RuntimeException: Insufficient balance. Required: 14000, Available: 5000
+	at com.hotelreservation.services.Service.validateBalance(Service.java:159)
+	at com.hotelreservation.services.Service.bookRoom(Service.java:74)
+	at com.hotelreservation.services.IntegrationTest.fullSystemScenarioTest(IntegrationTest.java:30)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+

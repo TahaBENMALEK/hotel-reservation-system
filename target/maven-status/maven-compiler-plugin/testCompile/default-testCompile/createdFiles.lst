@@ -1,0 +1,4 @@
+com\hotelreservation\services\RoomServiceTest.class
+com\hotelreservation\services\BookingServiceTest.class
+com\hotelreservation\services\IntegrationTest.class
+com\hotelreservation\services\UserServiceTest.class
